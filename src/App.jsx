@@ -13,6 +13,7 @@ export default function App() {
     const onScroll = () => {
       setShowBackToTop(window.scrollY > 500)
     }
+
     window.addEventListener("scroll", onScroll, { passive: true })
     return () => window.removeEventListener("scroll", onScroll)
   }, [])
@@ -29,6 +30,7 @@ export default function App() {
       <Portfolio />
       <Contact />
 
+      {/* Back to Top Button */}
       <button
         onClick={handleBackToTop}
         aria-label="Back to top"
@@ -40,16 +42,17 @@ export default function App() {
       >
         <ArrowUp size={18} />
       </button>
-      
-      {/* Footer - Optional */}
+
+      {/* Footer */}
       <footer className="bg-black/50 border-t border-white/10 py-8 px-6 md:px-[8%]">
         <div className="max-w-7xl mx-auto flex flex-col gap-5">
           <div className="flex flex-col md:flex-row justify-between items-center gap-4">
             <p className="text-[11px] md:text-[12px] text-white/40 tracking-[2px] uppercase font-['Exo_2']">
-              © 2026 Khizar Hayat. All rights reserved.
+              © 2026 All rights reserved.
             </p>
           </div>
         </div>
       </footer>
+    </div>  {/* ✅ Missing div fixed here */}
   )
 }
