@@ -1,0 +1,105 @@
+@import "tailwindcss";
+
+:root {
+  color-scheme: dark;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: #060606;
+  color: rgb(234 234 234);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  * {
+    cursor: none !important;
+  }
+}
+
+.custom-cursor {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 32px;
+  height: 32px;
+  pointer-events: none;
+  z-index: 10000;
+  opacity: 0;
+  transition: opacity 180ms ease;
+  transform: translate3d(-50%, -50%, 0);
+  will-change: transform;
+}
+
+.custom-cursor::before,
+.custom-cursor::after {
+  content: "";
+  position: absolute;
+  border-radius: 999px;
+}
+
+.custom-cursor::before {
+  inset: -7px;
+  background: conic-gradient(from 0deg, #ff4d4d, #45ff7a, #40d8ff, #ff4d4d);
+  filter: blur(8px);
+  opacity: 0.58;
+  animation: rgb-loop 4.2s linear infinite;
+}
+
+.custom-cursor::after {
+  inset: -2px;
+  border: 1px solid rgba(255, 255, 255, 0.38);
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.18), transparent 68%);
+}
+
+.custom-cursor__image {
+  position: absolute;
+  inset: 0;
+  width: 32px;
+  height: 32px;
+  object-fit: contain;
+  border-radius: 50%;
+}
+
+.custom-cursor.is-pointer::before {
+  opacity: 0.9;
+}
+
+.custom-cursor-tail {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 13px;
+  height: 13px;
+  border-radius: 999px;
+  background: radial-gradient(circle, rgba(136, 248, 255, 0.5), rgba(192, 110, 255, 0.2));
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  filter: blur(0.2px);
+  transform: translate3d(-50%, -50%, 0);
+  opacity: 0;
+  pointer-events: none;
+  z-index: 9999;
+  animation: tail-rgb 2.8s linear infinite;
+}
+
+@keyframes rgb-loop {
+  0% {
+    transform: rotate(0deg);
+    filter: blur(8px) hue-rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+    filter: blur(8px) hue-rotate(360deg);
+  }
+}
+
+@keyframes tail-rgb {
+  0% {
+    filter: hue-rotate(0deg);
+  }
+  100% {
+    filter: hue-rotate(360deg);
+  }
+}
