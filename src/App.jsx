@@ -44,26 +44,12 @@ export default function App() {
       {/* Footer - Optional */}
       <footer className="bg-black/50 border-t border-white/10 py-8 px-6 md:px-[8%]">
         <div className="max-w-7xl mx-auto flex flex-col gap-5">
-          <div className="flex flex-wrap items-center justify-center md:justify-start gap-2">
-            {["Android + iOS Ready", "Chrome / Edge / Safari", "Typography & Spacing Refined"].map((item) => (
-              <span
-                key={item}
-                className="rounded-full border border-white/15 bg-white/5 px-3 py-1 text-[10px] md:text-[11px] tracking-[1px] text-white/70 font-['Exo_2']"
-              >
-                {item}
-              </span>
-            ))}
-          </div>
           <div className="flex flex-col md:flex-row justify-between items-center gap-4">
             <p className="text-[11px] md:text-[12px] text-white/40 tracking-[2px] uppercase font-['Exo_2']">
               © 2026 Khizar Hayat. All rights reserved.
             </p>
-            <p className="text-[11px] md:text-[12px] text-white/30 tracking-[1px] font-['Exo_2']">
-              Production-ready UI with refined premium detailing
-            </p>
           </div>
         </div>
       </footer>
-    </div>
   )
 }
