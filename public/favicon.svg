@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <defs>
+    <linearGradient id="frame" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#59d7ff" />
+      <stop offset="50%" stop-color="#b068ff" />
+      <stop offset="100%" stop-color="#7cff9a" />
+    </linearGradient>
+    <linearGradient id="text" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff" />
+      <stop offset="100%" stop-color="#d4dcff" />
+    </linearGradient>
+  </defs>
+  <rect x="4" y="4" width="56" height="56" rx="16" fill="#06070e" />
+  <rect x="5" y="5" width="54" height="54" rx="15" fill="none" stroke="url(#frame)" stroke-width="2" />
+  <text x="13" y="42" font-size="24" font-family="Anton, Arial, sans-serif" letter-spacing="1.5" fill="url(#text)">KH</text>
+</svg>
