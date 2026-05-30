@@ -1,20 +1,8 @@
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { useRef, useEffect, useState } from "react";
-import { ExternalLink } from "lucide-react";
+import { ExternalLink, Zap, Code2 } from "lucide-react";
 
-const PROJECTS = [
-  {
-    id: "aurelia",
-    name: "Aurelia",
-    tagline: "Luxury Hotel Experience",
-    description: "Premium hotel booking platform with seamless reservations",
-    color: "#DAA400",
-    colorRgb: "218,164,0",
-    tech: ["React", "Tailwind", "Node.js", "MongoDB"],
-    link: "https://aurelia-livid.vercel.app/",
-    desktopImage: "/assets/Aurelia Desktop.png",
-    phoneImage: "/assets/Aurelia Phone.png",
-  },
+const PORTFOLIO_WEBSITES = [
   {
     id: "butt",
     name: "Butt Foods",
@@ -40,16 +28,33 @@ const PROJECTS = [
     phoneImage: "/assets/The Forge Mobile].png",
   },
   {
-    id: "face",
-    name: "Face Detection",
-    tagline: "AI Vision System",
-    description: "Advanced face recognition powered by machine learning",
-    color: "#10B981",
-    colorRgb: "16,185,129",
-    tech: ["React", "TensorFlow", "Python", "WebRTC"],
-    link: "https://face-detection-app-five.vercel.app/",
-    desktopImage: "/assets/FaceDetectionAppDesktop.png",
-    phoneImage: "/assets/FaceDetectionAppMobile.png",
+    id: "aurelia",
+    name: "Aurelia",
+    tagline: "Luxury Hotel Experience",
+    description: "Premium hotel booking platform with seamless reservations",
+    color: "#DAA400",
+    colorRgb: "218,164,0",
+    tech: ["React", "Tailwind", "Node.js", "MongoDB"],
+    link: "https://aurelia-livid.vercel.app/",
+    desktopImage: "/assets/Aurelia Desktop.png",
+    phoneImage: "/assets/Aurelia Phone.png",
+  },
+];
+
+const SAAS_PRODUCTS = [
+  {
+    id: "fixitnow",
+    name: "Fix It Now",
+    tagline: "Enterprise Service Marketplace",
+    description: "Full-stack service booking platform. Real-time tracking, admin dashboard, payment integration. Built entirely solo.",
+    color: "#FF6B35",
+    colorRgb: "255,107,53",
+    tech: ["React", "Node.js", "MongoDB", "Socket.io", "Vercel", "Railway"],
+    link: "https://fix-it-now-omega.vercel.app/",
+    desktopImage: "/assets/FixItNow_Desktop.png",
+    phoneImage: "/assets/FixItNow_Mobile.png",
+    badge: "ENTERPRISE • SOLO",
+    featured: true,
   },
   {
     id: "tabify",
@@ -65,7 +70,52 @@ const PROJECTS = [
   },
 ];
 
-function ProjectCard({ project, index, onHover }) {
+function TabButton({ label, isActive, onClick, icon: Icon }) {
+  return (
+    <motion.button
+      onClick={onClick}
+      className="relative px-6 md:px-8 py-2 md:py-3 flex items-center gap-2 text-[11px] md:text-[13px] font-bold tracking-[1.2px] uppercase transition-colors"
+      style={{
+        color: isActive ? "white" : "rgba(255,255,255,0.5)",
+      }}
+      whileHover={{ color: "white" }}
+      whileTap={{ scale: 0.95 }}
+    >
+      {Icon && <Icon size={16} />}
+      {label}
+      
+      {isActive && (
+        <motion.div
+          layoutId="tabUnderline"
+          className="absolute -bottom-2 left-0 right-0 h-0.5 bg-gradient-to-r from-white/40 via-white to-white/40"
+          transition={{ type: "spring", stiffness: 380, damping: 30 }}
+        />
+      )}
+    </motion.button>
+  );
+}
+
+function FeaturedBadge({ badge }) {
+  return (
+    <motion.div
+      initial={{ scale: 0, rotate: -180 }}
+      animate={{ scale: 1, rotate: 0 }}
+      transition={{ type: "spring", stiffness: 200, damping: 15 }}
+      className="absolute top-4 right-4 md:top-6 md:right-6 z-30"
+    >
+      <div className="relative">
+        <div className="absolute inset-0 bg-gradient-to-r from-orange-500 to-red-500 rounded-full blur-lg opacity-75 animate-pulse" />
+        <div className="relative bg-gradient-to-r from-orange-500 to-red-500 px-3 md:px-4 py-1.5 md:py-2 rounded-full">
+          <span className="text-[8px] md:text-[10px] font-black tracking-[1.5px] text-white uppercase">
+            {badge}
+          </span>
+        </div>
+      </div>
+    </motion.div>
+  );
+}
+
+function ProjectCard({ project, index, onHover, isFeatured }) {
   const cardRef = useRef(null);
 
   const handleMouseEnter = () => {
@@ -79,69 +129,122 @@ function ProjectCard({ project, index, onHover }) {
   return (
     <motion.div
       ref={cardRef}
+      layout
       initial={{ opacity: 0, y: 60, scale: 0.9 }}
-      whileInView={{ opacity: 1, y: 0, scale: 1 }}
+      animate={{ opacity: 1, y: 0, scale: 1 }}
+      exit={{ opacity: 0, y: 60, scale: 0.9 }}
       transition={{
-        duration: 0.8,
-        delay: index * 0.15,
+        duration: 0.6,
+        delay: index * 0.12,
         ease: [0.22, 1, 0.36, 1],
       }}
-      viewport={{ once: true, margin: "-100px" }}
-      className="relative h-[400px] md:h-[500px] rounded-2xl md:rounded-3xl overflow-hidden cursor-pointer group shadow-2xl hover:shadow-[0_20px_40px_-15px_rgba(6,182,212,0.3)] transition-all duration-500"
+      className={`relative rounded-3xl overflow-hidden cursor-pointer group shadow-2xl transition-all duration-500 ${
+        isFeatured ? "md:col-span-2 h-[500px] md:h-[600px]" : "h-[400px] md:h-[500px]"
+      }`}
       style={{
         background: `linear-gradient(135deg, ${project.color}16, transparent 55%)`,
       }}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
+      whileHover={{ 
+        boxShadow: `0 20px 60px -15px rgba(${project.colorRgb},0.4)`,
+        y: -8
+      }}
     >
+      {/* Featured Badge */}
+      {isFeatured && <FeaturedBadge badge={project.badge} />}
+
+      {/* Animated Border Glow */}
+      <motion.div
+        className="absolute inset-0 rounded-3xl pointer-events-none"
+        style={{
+          border: `1px solid ${project.color}33`,
+        }}
+        animate={{
+          boxShadow: [
+            `0 0 20px ${project.color}00`,
+            `0 0 40px ${project.color}44`,
+            `0 0 20px ${project.color}00`,
+          ],
+        }}
+        transition={{ duration: 3, repeat: Infinity }}
+      />
+
       <div className="absolute inset-0 p-4 md:p-6">
-        <div className="grid h-[65%] grid-cols-5 gap-3">
-          <div className="col-span-3 overflow-hidden rounded-xl border border-white/15 bg-black/40">
-            <img
+        <div className={`grid ${isFeatured ? "grid-cols-3 gap-4" : "grid-cols-5 gap-3"} h-[60%] md:h-[65%]`}>
+          <div className={`${isFeatured ? "col-span-2" : "col-span-3"} overflow-hidden rounded-2xl border border-white/15 bg-black/40`}>
+            <motion.img
               src={project.desktopImage}
               alt={`${project.name} desktop preview`}
-              className="h-full w-full object-contain p-2 transition-transform duration-500 group-hover:scale-[1.02]"
+              className="h-full w-full object-contain p-2"
+              whileHover={{ scale: 1.05 }}
+              transition={{ duration: 0.4 }}
             />
           </div>
-          <div className="col-span-2 overflow-hidden rounded-xl border border-white/15 bg-black/40">
-            <img
+          <div className={`${isFeatured ? "col-span-1" : "col-span-2"} overflow-hidden rounded-2xl border border-white/15 bg-black/40`}>
+            <motion.img
               src={project.phoneImage}
               alt={`${project.name} mobile preview`}
-              className="h-full w-full object-contain p-2 transition-transform duration-500 group-hover:scale-[1.04]"
+              className="h-full w-full object-contain p-2"
+              whileHover={{ scale: 1.08 }}
+              transition={{ duration: 0.4 }}
             />
           </div>
         </div>
 
-        <div className="absolute inset-x-4 bottom-4 rounded-2xl border border-white/15 bg-black/65 p-4 backdrop-blur-xl md:inset-x-6 md:bottom-6 md:p-6">
-          <h3 className="font-['Anton'] text-[30px] md:text-[38px] leading-none">{project.name}</h3>
-          <p className="mt-2 text-[11px] font-semibold tracking-[1.4px] uppercase text-white/60">
+        {/* Content Box */}
+        <motion.div
+          className="absolute inset-x-4 bottom-4 rounded-2xl border border-white/15 bg-black/75 p-4 md:p-6 backdrop-blur-xl md:inset-x-6 md:bottom-6"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.2 + index * 0.1 }}
+        >
+          <h3 className="font-['Anton'] text-[28px] md:text-[40px] leading-none tracking-tight">{project.name}</h3>
+          <p className="mt-2 text-[10px] md:text-[12px] font-bold tracking-[1.5px] uppercase text-transparent bg-gradient-to-r from-white via-white/80 to-white/60 bg-clip-text">
             {project.tagline}
           </p>
-          <p className="mt-3 text-[12px] md:text-[13px] text-white/70">{project.description}</p>
+          <p className="mt-3 text-[12px] md:text-[13px] text-white/70 leading-relaxed">{project.description}</p>
+          
           <div className="mt-4 flex flex-wrap gap-2">
-            {project.tech.map((tech) => (
-              <span
+            {project.tech.map((tech, idx) => (
+              <motion.span
                 key={tech}
-                className="rounded-full border px-3 py-1 text-[10px] font-semibold uppercase tracking-[1px]"
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ delay: 0.3 + idx * 0.05 }}
+                className="rounded-full border px-2.5 md:px-3 py-1 text-[9px] md:text-[10px] font-bold uppercase tracking-[0.8px] transition-all"
                 style={{
-                  borderColor: `${project.color}66`,
+                  borderColor: `${project.color}88`,
                   color: project.color,
-                  background: `${project.color}1f`,
+                  background: `${project.color}15`,
+                }}
+                whileHover={{ 
+                  background: `${project.color}25`,
+                  transform: "scale(1.1)"
                 }}
               >
                 {tech}
-              </span>
+              </motion.span>
             ))}
           </div>
-          <a
+
+          <motion.a
             href={project.link}
             target="_blank"
             rel="noopener noreferrer"
-            className="mt-5 inline-flex items-center gap-2 rounded-xl border border-white/25 bg-white/8 px-4 py-2 text-[11px] font-bold tracking-[1.5px] uppercase text-white transition-all hover:-translate-y-0.5 hover:border-white/50 hover:bg-white/14"
+            className="mt-5 inline-flex items-center gap-2.5 rounded-xl border border-white/25 bg-white/8 px-4 py-2.5 text-[11px] font-bold tracking-[1.5px] uppercase text-white transition-all hover:border-white/50 hover:bg-white/14"
+            whileHover={{ x: 4, gap: "14px" }}
+            whileTap={{ scale: 0.95 }}
           >
-            Open Project <ExternalLink size={14} />
-          </a>
-        </div>
+            <span>Open Project</span>
+            <motion.span
+              animate={{ x: [0, 3, 0] }}
+              transition={{ duration: 1.5, repeat: Infinity }}
+            >
+              <ExternalLink size={14} />
+            </motion.span>
+          </motion.a>
+        </motion.div>
       </div>
     </motion.div>
   );
@@ -150,6 +253,7 @@ function ProjectCard({ project, index, onHover }) {
 export default function Portfolio() {
   const [orbPos, setOrbPos] = useState({ x: 0, y: 0 });
   const [activeProject, setActiveProject] = useState(null);
+  const [activeTab, setActiveTab] = useState("saas");
   const containerRef = useRef(null);
 
   useEffect(() => {
@@ -161,6 +265,8 @@ export default function Portfolio() {
     return () => window.removeEventListener("mousemove", handleMouseMove);
   }, []);
 
+  const projects = activeTab === "saas" ? SAAS_PRODUCTS : PORTFOLIO_WEBSITES;
+
   return (
     <section
       id="portfolio"
@@ -171,6 +277,10 @@ export default function Portfolio() {
         @keyframes float {
           0%, 100% { transform: translateY(0); }
           50% { transform: translateY(20px); }
+        }
+        @keyframes fadeScale {
+          from { opacity: 0; transform: scale(0.9); }
+          to { opacity: 1; transform: scale(1); }
         }
       `}</style>
 
@@ -193,30 +303,27 @@ export default function Portfolio() {
           top: orbPos.y,
           background: activeProject
             ? `radial-gradient(circle, ${activeProject.color}44, transparent 50%)`
-            : "radial-gradient(circle, rgba(255,255,255,0.05), transparent 50%)",
+            : "radial-gradient(circle, rgba(255,107,53,0.08), transparent 50%)",
           filter: "blur(80px)",
-          opacity: activeProject ? 0.4 : 0.2,
         }}
         animate={{
-          opacity: activeProject ? 0.4 : 0.2,
+          opacity: activeProject ? 0.5 : 0.25,
         }}
         transition={{ duration: 0.4 }}
       />
 
-      {/* Top-Left Accent Glow */}
+      {/* Accent Glows */}
       <div
         className="absolute -top-40 -left-40 w-[600px] h-[600px] rounded-full pointer-events-none z-0"
         style={{
-          background: "radial-gradient(circle, rgba(74,222,128,0.08), transparent 70%)",
+          background: "radial-gradient(circle, rgba(255,107,53,0.12), transparent 70%)",
           filter: "blur(80px)",
         }}
       />
-
-      {/* Top-Right Accent Glow */}
       <div
-        className="absolute -top-40 -right-40 w-[500px] h-[500px] rounded-full pointer-events-none z-0"
+        className="absolute -bottom-40 -right-40 w-[500px] h-[500px] rounded-full pointer-events-none z-0"
         style={{
-          background: "radial-gradient(circle, rgba(59,130,246,0.05), transparent 70%)",
+          background: "radial-gradient(circle, rgba(59,130,246,0.08), transparent 70%)",
           filter: "blur(80px)",
         }}
       />
@@ -224,7 +331,7 @@ export default function Portfolio() {
       <div className="relative z-20">
         {/* Section Header */}
         <motion.div
-          className="mb-12 md:mb-24"
+          className="mb-12 md:mb-20"
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
@@ -237,14 +344,14 @@ export default function Portfolio() {
             transition={{ duration: 0.6, delay: 0.1 }}
             viewport={{ once: true }}
           >
-            <span className="w-6 md:w-8 h-px bg-gradient-to-r from-white/40 to-transparent" />
+            <span className="w-6 md:w-8 h-px bg-gradient-to-r from-orange-500 to-transparent" />
             <span className="text-[8px] md:text-[10px] tracking-[3px] md:tracking-[4px] text-white/30 uppercase font-['Exo_2'] font-semibold">
               03 — Featured Work
             </span>
           </motion.div>
 
           <motion.h1
-            className="font-['Anton'] text-[40px] md:text-[72px] leading-[1.05] tracking-[-1px] md:tracking-[-1.5px] mb-3 md:mb-4"
+            className="font-['Anton'] text-[44px] md:text-[80px] leading-[1.05] tracking-[-1.5px] md:tracking-[-2px] mb-4 md:mb-6"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{
@@ -254,63 +361,106 @@ export default function Portfolio() {
             }}
             viewport={{ once: true }}
           >
-            <span className="bg-gradient-to-r from-white via-white/90 to-white/70 bg-clip-text text-transparent">
+            <motion.span
+              className="bg-gradient-to-r from-orange-400 via-white to-orange-300 bg-clip-text text-transparent"
+              animate={{ backgroundPosition: ["0%", "100%"] }}
+              transition={{ duration: 4, repeat: Infinity }}
+            >
               PORTFOLIO
-            </span>
+            </motion.span>
           </motion.h1>
 
           <motion.p
-            className="text-white/40 text-[11px] md:text-[14px] max-w-2xl leading-relaxed font-['Exo_2']"
+            className="text-white/40 text-[12px] md:text-[14px] max-w-3xl leading-relaxed font-['Exo_2']"
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             transition={{ duration: 0.7, delay: 0.2 }}
             viewport={{ once: true }}
           >
-            A curated collection of digital experiences designed and developed to solve real problems, deliver value, and push creative boundaries.
+            A carefully curated collection of digital experiences. From SaaS platforms built solo to full-scale enterprise applications, each project demonstrates technical excellence and creative problem-solving.
           </motion.p>
 
           <div
-            className="h-px mt-4 md:mt-6"
+            className="h-px mt-6 md:mt-8"
             style={{
-              background:
-                "linear-gradient(to right, rgba(255,255,255,0.3), rgba(255,255,255,0.05))",
+              background: "linear-gradient(to right, rgba(255,107,53,0.4), rgba(255,255,255,0.05))",
             }}
           />
         </motion.div>
 
-        {/* Projects Grid - Responsive */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-10 mb-12">
-          {PROJECTS.map((project, i) => (
-            <ProjectCard
-              key={project.id}
-              project={project}
-              index={i}
-              onHover={setActiveProject}
-            />
-          ))}
-        </div>
+        {/* Tab Navigation */}
+        <motion.div
+          className="flex items-center gap-8 md:gap-12 mb-14 md:mb-20 overflow-x-auto pb-4"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.2 }}
+          viewport={{ once: true }}
+        >
+          <TabButton
+            label="SaaS Products"
+            isActive={activeTab === "saas"}
+            onClick={() => setActiveTab("saas")}
+            icon={Zap}
+          />
+          <TabButton
+            label="Portfolio Websites"
+            isActive={activeTab === "websites"}
+            onClick={() => setActiveTab("websites")}
+            icon={Code2}
+          />
+        </motion.div>
+
+        {/* Projects Grid */}
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={activeTab}
+            className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 mb-16"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.4 }}
+          >
+            {projects.map((project, i) => (
+              <ProjectCard
+                key={project.id}
+                project={project}
+                index={i}
+                onHover={setActiveProject}
+                isFeatured={project.featured}
+              />
+            ))}
+          </motion.div>
+        </AnimatePresence>
 
         {/* CTA Section */}
         <motion.div
-          className="mt-12 md:mt-24 pt-8 md:pt-12 border-t border-white/10"
+          className="mt-16 md:mt-24 pt-12 md:pt-16 border-t border-white/10"
           initial={{ opacity: 0, y: 40 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, delay: 0.3 }}
           viewport={{ once: true }}
         >
-          <p className="text-white/50 font-['Exo_2'] text-[11px] md:text-[13px] mb-4 md:mb-6">
-            Want to see more work or discuss a project?
-          </p>
+          <motion.div
+            className="inline-flex items-center gap-3 px-5 py-3 rounded-full border border-orange-500/30 bg-orange-500/10 mb-6"
+            whileHover={{ scale: 1.02, borderColor: "rgba(255,107,53,0.6)" }}
+          >
+            <Zap size={16} className="text-orange-400" />
+            <span className="text-[11px] font-bold tracking-[1px] text-orange-300 uppercase">
+              Want to build something amazing?
+            </span>
+          </motion.div>
+          
           <motion.a
             href="#contact"
-            className="inline-flex items-center gap-2 text-white font-['Anton'] text-[12px] md:text-[14px] tracking-[1.5px] md:tracking-[2px] uppercase"
-            whileHover={{ gap: "12px", x: 4 }}
+            className="inline-flex items-center gap-2 text-white font-['Anton'] text-[14px] md:text-[16px] tracking-[2px] uppercase group"
+            whileHover={{ gap: "14px", x: 4 }}
             whileTap={{ scale: 0.95 }}
           >
             Get in Touch
             <motion.span
               animate={{ x: [0, 4, 0] }}
               transition={{ duration: 2, repeat: Infinity }}
+              className="group-hover:text-orange-400"
             >
               →
             </motion.span>
