@@ -204,7 +204,7 @@ export default function About() {
               className="block text-[24px] md:text-[60px]"
               style={{
                 background:
-                  "linear-gradient(135deg, rgba(234,234,234,0.18), rgba(100,100,100,0.12))",
+                  "linear-gradient(135deg, rgba(234,234,234,0.65), rgba(180,180,200,0.45))",
                 WebkitBackgroundClip: "text",
                 WebkitTextFillColor: "transparent",
               }}
