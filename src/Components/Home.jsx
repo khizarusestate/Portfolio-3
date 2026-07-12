@@ -242,7 +242,7 @@ export default function Home() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 1.8 }}
-            className="text-white/60 font-['Exo_2'] text-sm md:text-base tracking-wider uppercase"
+            className="text-white/80 font-['Exo_2'] text-sm md:text-base tracking-wider uppercase"
           >
             Hello, I'm
           </motion.div>
@@ -258,7 +258,7 @@ export default function Home() {
           </motion.h1>
 
           <motion.div
-            className="text-xl md:text-2xl text-white/80 font-['Exo_2']"
+            className="text-xl md:text-2xl text-white font-['Exo_2']"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 2.2, duration: 0.6 }}
@@ -267,7 +267,7 @@ export default function Home() {
           </motion.div>
 
           <motion.p
-            className="text-base md:text-lg text-white/60 font-['Exo_2'] max-w-lg leading-relaxed"
+            className="text-base md:text-lg text-white/85 font-['Exo_2'] max-w-lg leading-relaxed"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 2.4, duration: 0.6 }}
@@ -311,7 +311,7 @@ export default function Home() {
               transition={{ delay: 3, duration: 0.6 }}
               className="space-y-4"
             >
-              <h3 className="text-lg font-semibold text-white/80 font-['Exo_2']">Core Expertise</h3>
+              <h3 className="text-lg font-semibold text-white font-['Exo_2']">Core Expertise</h3>
               <div className="flex flex-wrap gap-2">
                 {['React', 'Node.js', 'TypeScript', 'Tailwind', 'MongoDB'].map((tech, index) => (
                   <motion.span
@@ -334,7 +334,7 @@ export default function Home() {
               transition={{ delay: 3.5, duration: 0.6 }}
               className="pt-4"
             >
-              <p className="text-white/60 font-['Exo_2'] text-sm leading-relaxed">
+              <p className="text-white/85 font-['Exo_2'] text-sm leading-relaxed">
                 Let's build something amazing together! I'm always excited to take on new challenges and create innovative solutions.
               </p>
             </motion.div>

@@ -90,8 +90,8 @@ function SkillsGrid({ label, items, Icon }) {
       className="mb-8 md:mb-12"
     >
       {/* Section label */}
-      <div className="flex items-center gap-2 text-[10px] md:text-[12px] tracking-[3px] md:tracking-[5px] text-white/[0.15] uppercase font-['Exo_2'] mb-4 md:mb-6">
-        <Icon size={16} className="text-white/30 flex-shrink-0" />
+      <div className="flex items-center gap-2 text-[10px] md:text-[12px] tracking-[3px] md:tracking-[5px] text-white/50 uppercase font-['Exo_2'] mb-4 md:mb-6">
+        <Icon size={16} className="text-white/60 flex-shrink-0" />
         {label}
       </div>
 
@@ -169,7 +169,7 @@ export default function About() {
         >
           {/* Section label */}
           <motion.div
-            className="flex items-center gap-[8px] md:gap-[10px] mb-5 md:mb-7 font-['Exo_2'] text-[8px] md:text-[9px] tracking-[3px] md:tracking-[6px] text-white/20 uppercase"
+            className="flex items-center gap-[8px] md:gap-[10px] mb-5 md:mb-7 font-['Exo_2'] text-[8px] md:text-[9px] tracking-[3px] md:tracking-[6px] text-white/50 uppercase"
             initial={{ opacity: 0, x: -10 }}
             whileInView={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6 }}
@@ -215,7 +215,7 @@ export default function About() {
 
           {/* Story */}
           <motion.p
-            className="text-[10px] md:text-[12px] leading-[1.8] md:leading-[2] text-white/[0.28] max-w-[320px] md:max-w-[380px] font-['Exo_2'] pl-3 md:pl-4 mb-6 md:mb-9"
+            className="text-[10px] md:text-[12px] leading-[1.8] md:leading-[2] text-white/70 max-w-[320px] md:max-w-[380px] font-['Exo_2'] pl-3 md:pl-4 mb-6 md:mb-9"
             style={{ borderLeft: "1px solid rgba(255,255,255,0.07)" }}
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
@@ -230,7 +230,7 @@ export default function About() {
 
           {/* Signature */}
           <motion.p
-            className="font-['Anton'] text-[10px] md:text-[12px] tracking-[2px] md:tracking-[4px] text-white/[0.07] uppercase mb-6 md:mb-9"
+            className="font-['Anton'] text-[10px] md:text-[12px] tracking-[2px] md:tracking-[4px] text-white/60 uppercase mb-6 md:mb-9"
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             transition={{ duration: 0.6, delay: 0.3 }}
@@ -263,12 +263,12 @@ export default function About() {
                   <span className="font-['Anton'] text-[24px] md:text-[36px] leading-none text-[rgb(234,234,234)]">
                     {label === "Years Exp." ? 2 : <CountUp target={target} />}
                   </span>
-                  <span className="font-['Anton'] text-[12px] md:text-[18px] text-white/30">
+                  <span className="font-['Anton'] text-[12px] md:text-[18px] text-white/60">
                     {suffix}
                   </span>
                 </div>
                 <BarFill width={bar} />
-                <p className="text-[7px] md:text-[9px] tracking-[2px] md:tracking-[3px] uppercase text-white/20">
+                <p className="text-[7px] md:text-[9px] tracking-[2px] md:tracking-[3px] uppercase text-white/55">
                   {label}
                 </p>
               </div>
@@ -289,7 +289,7 @@ export default function About() {
 
           {/* Available badge */}
           <motion.div
-            className="flex items-center gap-[8px] md:gap-[10px] mx-4 md:mx-[5%] px-3 md:px-[18px] py-2 md:py-[10px] rounded-lg md:rounded-[8px] w-fit font-['Exo_2'] text-[8px] md:text-[9px] tracking-[2px] md:tracking-[4px] uppercase text-white/20"
+            className="flex items-center gap-[8px] md:gap-[10px] mx-4 md:mx-[5%] px-3 md:px-[18px] py-2 md:py-[10px] rounded-lg md:rounded-[8px] w-fit font-['Exo_2'] text-[8px] md:text-[9px] tracking-[2px] md:tracking-[4px] uppercase text-white/65"
             style={{
               border: "1px solid rgba(255,255,255,0.06)",
               background: "rgba(255,255,255,0.02)",

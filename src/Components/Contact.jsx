@@ -186,7 +186,7 @@ function ContactForm() {
           transition={{ duration: 0.5, delay: 0.25 + index * 0.1 }}
           viewport={{ once: true }}
         >
-          <label className="block text-[11px] md:text-[12px] font-semibold tracking-[1px] text-white/60 uppercase mb-2 md:mb-3">
+          <label className="block text-[11px] md:text-[12px] font-semibold tracking-[1px] text-white/85 uppercase mb-2 md:mb-3">
             {field.label}
             {field.required && <span className="text-red-400 ml-1">*</span>}
           </label>
@@ -348,7 +348,7 @@ export default function Contact() {
             viewport={{ once: true }}
           >
             <span className="w-6 md:w-8 h-px bg-gradient-to-r from-white/40 to-transparent" />
-            <span className="text-[8px] md:text-[10px] tracking-[3px] md:tracking-[4px] text-white/30 uppercase font-['Exo_2'] font-semibold">
+            <span className="text-[8px] md:text-[10px] tracking-[3px] md:tracking-[4px] text-white/60 uppercase font-['Exo_2'] font-semibold">
               04 — Contact
             </span>
           </motion.div>
@@ -366,7 +366,7 @@ export default function Contact() {
           </motion.h1>
 
           <motion.p
-            className="text-white/50 text-[11px] md:text-[14px] max-w-2xl leading-relaxed font-['Exo_2']"
+            className="text-white/80 text-[11px] md:text-[14px] max-w-2xl leading-relaxed font-['Exo_2']"
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             transition={{ duration: 0.7, delay: 0.2 }}
@@ -467,7 +467,7 @@ export default function Contact() {
               <h4 className="font-['Anton'] text-[14px] md:text-[16px] mb-2">
                 {CONTACT_DATA.uiText.ctaTitle}
               </h4>
-              <p className="text-[10px] md:text-[13px] text-white/60 leading-relaxed">
+              <p className="text-[10px] md:text-[13px] text-white/80 leading-relaxed">
                 {CONTACT_DATA.uiText.ctaDescription}
               </p>
             </motion.div>

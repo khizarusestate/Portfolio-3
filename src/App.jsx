@@ -5,9 +5,11 @@ import Home from "./Components/Home"
 import About from "./Components/About"
 import Portfolio from "./Components/Portfolio"
 import Contact from "./Components/Contact"
+import IntroScreen from "./Components/IntroScreen"
 
 export default function App() {
   const [showBackToTop, setShowBackToTop] = useState(false)
+  const [introComplete, setIntroComplete] = useState(false)
 
   useEffect(() => {
     const onScroll = () => {
@@ -23,6 +25,8 @@ export default function App() {
   }
 
   return (
+    <>
+    {!introComplete && <IntroScreen onComplete={() => setIntroComplete(true)} />}
     <div className="bg-[#060606] text-white overflow-x-hidden">
       <Header />
       <Home />
@@ -52,5 +56,6 @@ export default function App() {
         </div>
       </footer>
     </div>
+    </>
   )
 }
