@@ -1,8 +1,28 @@
-import { motion, AnimatePresence } from "framer-motion";
-import { useState, useEffect } from "react";
+import { motion, AnimatePresence, useMotionValue, useSpring } from "framer-motion";
+import { useState, useEffect, useRef } from "react";
 import { ArrowDownToLine, ArrowUpRight } from "lucide-react";
 
 const navLinks = ["Home", "About", "Portfolio", "Contact"];
+
+function MagnetWrap({ children, strength = 0.35 }) {
+  const ref = useRef(null);
+  const x = useMotionValue(0);
+  const y = useMotionValue(0);
+  const sx = useSpring(x, { stiffness: 300, damping: 20 });
+  const sy = useSpring(y, { stiffness: 300, damping: 20 });
+  const onMove = (e) => {
+    if (!ref.current) return;
+    const r = ref.current.getBoundingClientRect();
+    x.set((e.clientX - r.left - r.width / 2) * strength);
+    y.set((e.clientY - r.top - r.height / 2) * strength);
+  };
+  const onLeave = () => { x.set(0); y.set(0); };
+  return (
+    <div ref={ref} onMouseMove={onMove} onMouseLeave={onLeave}>
+      <motion.div style={{ x: sx, y: sy }}>{children}</motion.div>
+    </div>
+  );
+}
 
 export default function Header() {
   const [active, setActive] = useState("Home");
@@ -71,6 +91,7 @@ export default function Header() {
         >
           <div className="absolute inset-0 bg-[linear-gradient(115deg,rgba(255,255,255,0.08),transparent_35%,rgba(114,46,255,0.12))]" />
           <div className="relative flex h-[62px] items-center justify-between px-4 md:px-6">
+            <MagnetWrap>
             <button
               onClick={handleDownloadCv}
               className="group inline-flex items-center gap-2 rounded-xl border border-white/20 bg-black/40 px-3 py-2 text-[10px] font-semibold tracking-[1.3px] uppercase text-white transition-all hover:-translate-y-0.5 hover:border-cyan-300/60 hover:bg-black/55 hover:shadow-[0_8px_24px_rgba(56,189,248,0.3)] md:px-4 md:text-[11px]"
@@ -78,6 +99,7 @@ export default function Header() {
               <ArrowDownToLine size={14} className="transition-transform duration-300 group-hover:translate-y-0.5" />
               Download CV
             </button>
+            </MagnetWrap>
 
             <ul className="hidden md:flex items-center gap-1 rounded-xl border border-white/10 bg-white/[0.03] p-1">
               {navLinks.map((item) => {
@@ -104,12 +126,14 @@ export default function Header() {
               })}
             </ul>
 
+            <MagnetWrap>
             <button
               onClick={() => handleNavClick("Contact")}
               className="hidden md:inline-flex items-center gap-2 rounded-xl border border-white/20 bg-white/5 px-4 py-2 text-[11px] font-semibold tracking-[1.8px] uppercase text-white transition-all hover:-translate-y-0.5 hover:border-white/40 hover:bg-white/10"
             >
               Let&apos;s Talk <ArrowUpRight size={14} />
             </button>
+            </MagnetWrap>
 
             <button
               className="md:hidden relative h-10 w-10 rounded-xl border border-white/20 bg-white/5"

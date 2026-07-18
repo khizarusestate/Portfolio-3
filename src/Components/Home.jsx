@@ -1,6 +1,83 @@
 import { useEffect, useMemo, useRef, useState } from "react";
-import { motion } from "framer-motion";
+import { motion, useMotionValue, useSpring } from "framer-motion";
 import { Code, ChevronDown, Terminal, Globe } from "lucide-react";
+
+const TITLES = [
+  "Software Engineer",
+  "Full-Stack Developer",
+  "React Specialist",
+  "MERN Stack Dev",
+  "Creative Developer",
+];
+
+function TypeWriter() {
+  const [wordIdx, setWordIdx] = useState(0);
+  const [charIdx, setCharIdx] = useState(0);
+  const [deleting, setDeleting] = useState(false);
+  const [blink, setBlink] = useState(true);
+
+  useEffect(() => {
+    const cur = TITLES[wordIdx];
+    let delay;
+    if (!deleting && charIdx < cur.length) {
+      delay = setTimeout(() => setCharIdx((c) => c + 1), 75);
+    } else if (!deleting && charIdx === cur.length) {
+      delay = setTimeout(() => setDeleting(true), 2200);
+    } else if (deleting && charIdx > 0) {
+      delay = setTimeout(() => setCharIdx((c) => c - 1), 40);
+    } else {
+      delay = setTimeout(() => {
+        setDeleting(false);
+        setWordIdx((i) => (i + 1) % TITLES.length);
+      }, 350);
+    }
+    return () => clearTimeout(delay);
+  }, [charIdx, deleting, wordIdx]);
+
+  useEffect(() => {
+    const t = setInterval(() => setBlink((b) => !b), 520);
+    return () => clearInterval(t);
+  }, []);
+
+  return (
+    <span className="font-['Exo_2'] text-xl md:text-2xl text-white">
+      {TITLES[wordIdx].substring(0, charIdx)}
+      <span
+        style={{
+          opacity: blink ? 1 : 0,
+          transition: "opacity 0.1s",
+          color: "#61dafb",
+          fontWeight: 300,
+          marginLeft: "1px",
+        }}
+      >
+        |
+      </span>
+    </span>
+  );
+}
+
+function MagnetWrap({ children, strength = 0.32, className }) {
+  const ref = useRef(null);
+  const x = useMotionValue(0);
+  const y = useMotionValue(0);
+  const sx = useSpring(x, { stiffness: 280, damping: 18 });
+  const sy = useSpring(y, { stiffness: 280, damping: 18 });
+
+  const onMove = (e) => {
+    if (!ref.current) return;
+    const r = ref.current.getBoundingClientRect();
+    x.set((e.clientX - r.left - r.width / 2) * strength);
+    y.set((e.clientY - r.top - r.height / 2) * strength);
+  };
+  const onLeave = () => { x.set(0); y.set(0); };
+
+  return (
+    <div ref={ref} onMouseMove={onMove} onMouseLeave={onLeave} className={className}>
+      <motion.div style={{ x: sx, y: sy }}>{children}</motion.div>
+    </div>
+  );
+}
 
 const DESKTOP_PARTICLES = 95;
 const MOBILE_ORBS = 8;
@@ -258,12 +335,11 @@ export default function Home() {
           </motion.h1>
 
           <motion.div
-            className="text-xl md:text-2xl text-white font-['Exo_2']"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 2.2, duration: 0.6 }}
           >
-            Software Engineer & Creative Developer
+            <TypeWriter />
           </motion.div>
 
           <motion.p
@@ -282,15 +358,21 @@ export default function Home() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 2.6, duration: 0.6 }}
           >
-            <div className="w-12 h-12 bg-gradient-to-br from-cyan-500/20 to-blue-500/20 backdrop-blur-sm border border-cyan-400/30 rounded-lg flex items-center justify-center text-white hover:from-cyan-500/30 hover:to-blue-500/30 transition-all duration-300 hover:scale-110 group">
-              <Code size={20} className="group-hover:rotate-12 transition-transform" />
-            </div>
-            <div className="w-12 h-12 bg-gradient-to-br from-purple-500/20 to-pink-500/20 backdrop-blur-sm border border-purple-400/30 rounded-lg flex items-center justify-center text-white hover:from-purple-500/30 hover:to-pink-500/30 transition-all duration-300 hover:scale-110 group">
-              <Terminal size={20} className="group-hover:rotate-12 transition-transform" />
-            </div>
-            <div className="w-12 h-12 bg-gradient-to-br from-green-500/20 to-emerald-500/20 backdrop-blur-sm border border-green-400/30 rounded-lg flex items-center justify-center text-white hover:from-green-500/30 hover:to-emerald-500/30 transition-all duration-300 hover:scale-110 group">
-              <Globe size={20} className="group-hover:rotate-12 transition-transform" />
-            </div>
+            <MagnetWrap>
+              <div className="w-12 h-12 bg-gradient-to-br from-cyan-500/20 to-blue-500/20 backdrop-blur-sm border border-cyan-400/30 rounded-lg flex items-center justify-center text-white hover:from-cyan-500/30 hover:to-blue-500/30 transition-all duration-300 hover:scale-110 group">
+                <Code size={20} className="group-hover:rotate-12 transition-transform" />
+              </div>
+            </MagnetWrap>
+            <MagnetWrap>
+              <div className="w-12 h-12 bg-gradient-to-br from-purple-500/20 to-pink-500/20 backdrop-blur-sm border border-purple-400/30 rounded-lg flex items-center justify-center text-white hover:from-purple-500/30 hover:to-pink-500/30 transition-all duration-300 hover:scale-110 group">
+                <Terminal size={20} className="group-hover:rotate-12 transition-transform" />
+              </div>
+            </MagnetWrap>
+            <MagnetWrap>
+              <div className="w-12 h-12 bg-gradient-to-br from-green-500/20 to-emerald-500/20 backdrop-blur-sm border border-green-400/30 rounded-lg flex items-center justify-center text-white hover:from-green-500/30 hover:to-emerald-500/30 transition-all duration-300 hover:scale-110 group">
+                <Globe size={20} className="group-hover:rotate-12 transition-transform" />
+              </div>
+            </MagnetWrap>
           </motion.div>
         </div>
       </motion.article>

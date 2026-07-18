@@ -111,14 +111,33 @@ function SkillsGrid({ label, items, Icon }) {
             viewport={{ once: true }}
             className="group relative"
           >
-            <div className="relative overflow-hidden rounded-lg border border-white/10 bg-white/5 backdrop-blur-sm hover:bg-white/10 transition-all duration-300 hover:scale-105 hover:border-white/20">
-              <div className="px-3 py-2 md:px-4 md:py-3">
-                <div className="text-[11px] md:text-[13px] text-white/80 font-['Exo_2'] tracking-wide text-center group-hover:text-white transition-colors duration-300">
-                  {skill}
-                </div>
+            <div
+              className="relative overflow-hidden rounded-xl px-3 py-2 md:px-4 md:py-3 transition-all duration-300 hover:scale-[1.06] cursor-default"
+              style={{
+                background: "rgba(255,255,255,0.055)",
+                backdropFilter: "blur(14px)",
+                WebkitBackdropFilter: "blur(14px)",
+                border: "1px solid rgba(255,255,255,0.13)",
+                boxShadow: "inset 0 1px 0 rgba(255,255,255,0.08)",
+              }}
+            >
+              {/* shimmer on hover */}
+              <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
+                style={{
+                  background: "linear-gradient(120deg, transparent 30%, rgba(255,255,255,0.08) 50%, transparent 70%)",
+                  backgroundSize: "200% 100%",
+                }}
+              />
+              {/* top edge highlight */}
+              <div className="absolute top-0 left-3 right-3 h-px"
+                style={{ background: "linear-gradient(to right, transparent, rgba(255,255,255,0.22), transparent)" }}
+              />
+              <div
+                className="text-[11px] md:text-[13px] font-['Exo_2'] tracking-wide text-center transition-colors duration-300"
+                style={{ color: "rgba(255,255,255,0.82)" }}
+              >
+                {skill}
               </div>
-              {/* Hover effect */}
-              <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
             </div>
           </motion.div>
         ))}
@@ -180,17 +199,15 @@ export default function About() {
           </motion.div>
 
           {/* Heading */}
-          <motion.h1
-            className="font-['Anton'] text-[36px] md:text-[60px] leading-[0.88] tracking-[-0.5px] md:tracking-[-1px] mb-5 md:mb-8"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.1 }}
-            viewport={{ once: true }}
-          >
-            {["CRAFTING", "DIGITAL"].map((word) => (
-              <span
-                key={word}
+          <h1 className="font-['Anton'] text-[36px] md:text-[60px] leading-[0.88] tracking-[-0.5px] md:tracking-[-1px] mb-5 md:mb-8">
+            {["CRAFTING", "DIGITAL"].map((word, wi) => (
+              <div key={word} style={{ overflow: "hidden" }}>
+              <motion.span
                 className="block"
+                initial={{ y: "110%" }}
+                whileInView={{ y: "0%" }}
+                transition={{ delay: 0.08 + wi * 0.13, duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+                viewport={{ once: true }}
                 style={{
                   background: "linear-gradient(135deg, rgb(234,234,234), rgba(160,160,160,0.6))",
                   WebkitBackgroundClip: "text",
@@ -198,20 +215,27 @@ export default function About() {
                 }}
               >
                 {word}
-              </span>
+              </motion.span>
+              </div>
             ))}
-            <span
+            <div style={{ overflow: "hidden" }}>
+            <motion.span
               className="block text-[24px] md:text-[60px]"
+              initial={{ y: "110%" }}
+              whileInView={{ y: "0%" }}
+              transition={{ delay: 0.34, duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+              viewport={{ once: true }}
               style={{
-                background:
-                  "linear-gradient(135deg, rgba(234,234,234,0.65), rgba(180,180,200,0.45))",
+                background: "linear-gradient(90deg,#61dafb,#b450ff)",
                 WebkitBackgroundClip: "text",
                 WebkitTextFillColor: "transparent",
+                filter: "drop-shadow(0 0 14px rgba(97,218,251,0.3))",
               }}
             >
               EXPERIENCES
-            </span>
-          </motion.h1>
+            </motion.span>
+            </div>
+          </h1>
 
           {/* Story */}
           <motion.p

@@ -28,6 +28,27 @@ export default function App() {
     <>
     {!introComplete && <IntroScreen onComplete={() => setIntroComplete(true)} />}
     <div className="bg-[#060606] text-white overflow-x-hidden">
+      {/* ── Animated mesh background ── */}
+      <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden">
+        <div style={{
+          position:"absolute", width:"70vw", height:"70vw", borderRadius:"50%",
+          top:"-20vw", left:"-10vw",
+          background:"radial-gradient(circle,rgba(50,80,255,0.038) 0%,transparent 70%)",
+          animation:"meshFloat1 22s ease-in-out infinite",
+        }}/>
+        <div style={{
+          position:"absolute", width:"55vw", height:"55vw", borderRadius:"50%",
+          top:"25vh", right:"-18vw",
+          background:"radial-gradient(circle,rgba(160,40,255,0.032) 0%,transparent 70%)",
+          animation:"meshFloat2 28s ease-in-out infinite",
+        }}/>
+        <div style={{
+          position:"absolute", width:"45vw", height:"45vw", borderRadius:"50%",
+          bottom:"-12vw", left:"18vw",
+          background:"radial-gradient(circle,rgba(0,210,160,0.028) 0%,transparent 70%)",
+          animation:"meshFloat3 19s ease-in-out infinite",
+        }}/>
+      </div>
       <Header />
       <Home />
       <About />

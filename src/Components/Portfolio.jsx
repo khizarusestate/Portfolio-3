@@ -1,6 +1,7 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { useRef, useEffect, useState } from "react";
 import { ExternalLink, Zap, Code2 } from "lucide-react";
+import SectionHeading from "./SectionHeading";
 
 const PORTFOLIO_WEBSITES = [
   {
@@ -117,14 +118,22 @@ function FeaturedBadge({ badge }) {
 
 function ProjectCard({ project, index, onHover, isFeatured }) {
   const cardRef = useRef(null);
+  const [tilt, setTilt] = useState({ x: 0, y: 0 });
+  const [isHovered, setIsHovered] = useState(false);
 
-  const handleMouseEnter = () => {
-    onHover(project);
+  const handleMouseMove = (e) => {
+    if (!cardRef.current) return;
+    const rect = cardRef.current.getBoundingClientRect();
+    const cx = rect.left + rect.width / 2;
+    const cy = rect.top + rect.height / 2;
+    setTilt({
+      x: ((e.clientY - cy) / (rect.height / 2)) * -6,
+      y: ((e.clientX - cx) / (rect.width / 2)) * 6,
+    });
   };
 
-  const handleMouseLeave = () => {
-    onHover(null);
-  };
+  const handleMouseEnter = () => { onHover(project); setIsHovered(true); };
+  const handleMouseLeave = () => { onHover(null); setIsHovered(false); setTilt({ x: 0, y: 0 }); };
 
   return (
     <motion.div
@@ -138,18 +147,18 @@ function ProjectCard({ project, index, onHover, isFeatured }) {
         delay: index * 0.12,
         ease: [0.22, 1, 0.36, 1],
       }}
-      className={`relative rounded-3xl overflow-hidden cursor-pointer group shadow-2xl transition-all duration-500 ${
+      className={`relative rounded-3xl overflow-hidden cursor-pointer group shadow-2xl ${
         isFeatured ? "md:col-span-2 h-[500px] md:h-[600px]" : "h-[400px] md:h-[500px]"
       }`}
       style={{
         background: `linear-gradient(135deg, ${project.color}16, transparent 55%)`,
+        transform: `perspective(900px) rotateX(${tilt.x}deg) rotateY(${tilt.y}deg) ${isHovered ? "translateY(-8px)" : "translateY(0)"}`,
+        transition: isHovered ? "transform 0.1s ease, box-shadow 0.3s ease" : "transform 0.5s ease, box-shadow 0.3s ease",
+        boxShadow: isHovered ? `0 20px 60px -15px rgba(${project.colorRgb},0.4)` : "none",
       }}
+      onMouseMove={handleMouseMove}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
-      whileHover={{ 
-        boxShadow: `0 20px 60px -15px rgba(${project.colorRgb},0.4)`,
-        y: -8
-      }}
     >
       {/* Featured Badge */}
       {isFeatured && <FeaturedBadge badge={project.badge} />}
@@ -330,63 +339,17 @@ export default function Portfolio() {
 
       <div className="relative z-20">
         {/* Section Header */}
-        <motion.div
-          className="mb-12 md:mb-20"
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-          viewport={{ once: true }}
-        >
-          <motion.div
-            className="flex items-center gap-3 mb-4 md:mb-6"
-            initial={{ opacity: 0, x: -20 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.6, delay: 0.1 }}
-            viewport={{ once: true }}
-          >
-            <span className="w-6 md:w-8 h-px bg-gradient-to-r from-orange-500 to-transparent" />
-            <span className="text-[8px] md:text-[10px] tracking-[3px] md:tracking-[4px] text-white/30 uppercase font-['Exo_2'] font-semibold">
-              03 — Featured Work
-            </span>
-          </motion.div>
-
-          <motion.h1
-            className="font-['Anton'] text-[44px] md:text-[80px] leading-[1.05] tracking-[-1.5px] md:tracking-[-2px] mb-4 md:mb-6"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{
-              duration: 0.7,
-              delay: 0.1,
-              ease: [0.22, 1, 0.36, 1],
-            }}
-            viewport={{ once: true }}
-          >
-            <motion.span
-              className="bg-gradient-to-r from-orange-400 via-white to-orange-300 bg-clip-text text-transparent"
-              animate={{ backgroundPosition: ["0%", "100%"] }}
-              transition={{ duration: 4, repeat: Infinity }}
-            >
-              PORTFOLIO
-            </motion.span>
-          </motion.h1>
-
-          <motion.p
-            className="text-white/40 text-[12px] md:text-[14px] max-w-3xl leading-relaxed font-['Exo_2']"
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            transition={{ duration: 0.7, delay: 0.2 }}
-            viewport={{ once: true }}
-          >
-            A carefully curated collection of digital experiences. From SaaS platforms built solo to full-scale enterprise applications, each project demonstrates technical excellence and creative problem-solving.
-          </motion.p>
-
-          <div
-            className="h-px mt-6 md:mt-8"
-            style={{
-              background: "linear-gradient(to right, rgba(255,107,53,0.4), rgba(255,255,255,0.05))",
-            }}
-          />
-        </motion.div>
+        <SectionHeading
+          number="03"
+          label="Featured Work"
+          words={[
+            { text: "MY" },
+            { text: "PORTFOLIO", accent: true },
+          ]}
+          accentGradient="linear-gradient(90deg,#ff6b35,#ffb347)"
+          lineColor="rgba(255,107,53,0.55)"
+          description="A carefully curated collection of digital experiences. From SaaS platforms built solo to full-scale enterprise applications — each project demonstrates technical excellence and creative problem-solving."
+        />
 
         {/* Tab Navigation */}
         <motion.div

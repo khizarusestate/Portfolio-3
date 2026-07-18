@@ -1,6 +1,7 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { useRef, useState } from "react";
 import { Send, AlertCircle, CheckCircle } from "lucide-react";
+import SectionHeading from "./SectionHeading";
 
 const CONTACT_DATA = {
   contactForm: {
@@ -333,56 +334,18 @@ export default function Contact() {
 
       <div className="relative z-20 max-w-7xl mx-auto">
         {/* Section Header */}
-        <motion.div
-          className="mb-12 md:mb-20"
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7 }}
-          viewport={{ once: true }}
-        >
-          <motion.div
-            className="flex items-center gap-3 mb-4 md:mb-6"
-            initial={{ opacity: 0, x: -20 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.6, delay: 0.1 }}
-            viewport={{ once: true }}
-          >
-            <span className="w-6 md:w-8 h-px bg-gradient-to-r from-white/40 to-transparent" />
-            <span className="text-[8px] md:text-[10px] tracking-[3px] md:tracking-[4px] text-white/60 uppercase font-['Exo_2'] font-semibold">
-              04 — Contact
-            </span>
-          </motion.div>
-
-          <motion.h1
-            className="font-['Anton'] text-[40px] md:text-[72px] leading-[1.05] tracking-[-1px] md:tracking-[-1.5px] mb-3 md:mb-6"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.1 }}
-            viewport={{ once: true }}
-          >
-            <span className="bg-gradient-to-r from-white via-white/90 to-white/70 bg-clip-text text-transparent">
-              {CONTACT_DATA.uiText.title}
-            </span>
-          </motion.h1>
-
-          <motion.p
-            className="text-white/80 text-[11px] md:text-[14px] max-w-2xl leading-relaxed font-['Exo_2']"
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            transition={{ duration: 0.7, delay: 0.2 }}
-            viewport={{ once: true }}
-          >
-            {CONTACT_DATA.uiText.description}
-          </motion.p>
-
-          <div
-            className="h-px mt-4 md:mt-6"
-            style={{
-              background:
-                "linear-gradient(to right, rgba(255,255,255,0.3), rgba(255,255,255,0.05))",
-            }}
-          />
-        </motion.div>
+        <SectionHeading
+          number="04"
+          label="Contact"
+          words={[
+            { text: "GET" },
+            { text: "IN" },
+            { text: "TOUCH", accent: true },
+          ]}
+          accentGradient="linear-gradient(90deg,rgba(255,255,255,0.95),rgba(180,200,255,0.7))"
+          lineColor="rgba(255,255,255,0.35)"
+          description={CONTACT_DATA.uiText.description}
+        />
 
         {/* Main Content Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-16 items-start">
