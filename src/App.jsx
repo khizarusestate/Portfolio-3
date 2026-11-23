@@ -50,7 +50,7 @@ export default function App() {
         }}/>
       </div>
       <Header />
-      <Home />
+      <Home cursorEnabled={introComplete} />
       <About />
       <Portfolio />
       <Contact />
