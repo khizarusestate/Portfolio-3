@@ -82,11 +82,12 @@ function MagnetWrap({ children, strength = 0.32, className }) {
 const DESKTOP_PARTICLES = 95;
 const MOBILE_ORBS = 8;
 
-export default function Home() {
+export default function Home({ cursorEnabled = true }) {
   const canvasRef = useRef(null);
   const cursorRef = useRef(null);
   const cursorTailRefs = useRef([]);
   const pointerRef = useRef({ x: 0, y: 0 });
+  const pointerHasMovedRef = useRef(false);
   const frameRef = useRef(0);
   const cursorTrailFrameRef = useRef(0);
   const [isMobile, setIsMobile] = useState(false);
@@ -112,7 +113,7 @@ export default function Home() {
   }, []);
 
   useEffect(() => {
-    if (isMobile) return;
+    if (isMobile || !cursorEnabled) return;
     const cursor = cursorRef.current;
     if (!cursor) return;
     const tails = cursorTailRefs.current.filter(Boolean);
@@ -123,6 +124,7 @@ export default function Home() {
 
     const onMove = (event) => {
       pointerRef.current = { x: event.clientX, y: event.clientY };
+      pointerHasMovedRef.current = true;
       cursor.style.opacity = "1";
       cursor.style.transform = `translate3d(${event.clientX}px, ${event.clientY}px, 0)`;
       const target = event.target;
@@ -130,6 +132,7 @@ export default function Home() {
       cursor.classList.toggle("is-pointer", Boolean(isPointer));
     };
     const onLeave = () => {
+      pointerHasMovedRef.current = false;
       cursor.style.opacity = "0";
       tails.forEach((tail) => {
         tail.style.opacity = "0";
@@ -137,6 +140,11 @@ export default function Home() {
     };
 
     const animateTrail = () => {
+      if (!pointerHasMovedRef.current) {
+        tails.forEach((tail) => { tail.style.opacity = "0"; });
+        cursorTrailFrameRef.current = requestAnimationFrame(animateTrail);
+        return;
+      }
       let prevX = pointerRef.current.x;
       let prevY = pointerRef.current.y;
       for (let i = 0; i < trailPoints.length; i += 1) {
@@ -161,7 +169,7 @@ export default function Home() {
       window.removeEventListener("mousemove", onMove);
       window.removeEventListener("mouseleave", onLeave);
     };
-  }, [isMobile]);
+  }, [isMobile, cursorEnabled]);
 
   useEffect(() => {
     if (isMobile) return;
@@ -257,7 +265,7 @@ export default function Home() {
       id="home"
       className="h-screen w-screen bg-[#060606] relative overflow-hidden flex items-center pt-16 md:pt-0"
     >
-      {!isMobile && (
+      {!isMobile && cursorEnabled && (
         <>
           <div ref={cursorRef} className="custom-cursor">
             <img src="/cursor.png" alt="" className="custom-cursor__image" />
