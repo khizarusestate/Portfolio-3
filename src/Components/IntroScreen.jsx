@@ -59,7 +59,7 @@ export default function IntroScreen({ onComplete }) {
   }, [onComplete]);
 
   return (
-    <div className={`star-intro-screen${exiting ? " is-exiting" : ""}`} aria-label="Technology icons intro animation">
+    <div className={`star-intro-screen is-ready${exiting ? " is-exiting" : ""}`} aria-label="Technology icons intro animation">
       <style>{`
         .star-intro-screen{position:fixed;inset:0;z-index:9999;display:flex;align-items:center;justify-content:center;overflow:hidden;background:#000;opacity:1}
         .star-intro-icons{display:flex;align-items:center;justify-content:center;gap:18px;padding:24px}
